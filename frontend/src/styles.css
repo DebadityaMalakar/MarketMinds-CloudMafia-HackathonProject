@@ -1,0 +1,105 @@
+/* tokyo-night-theme.css */
+@import "tailwindcss";
+
+@theme {
+  /* Shared Colors (used in both themes) */
+  --color-accent-primary: #34548a;
+  --color-accent-purple: #c099ff;
+  --color-accent-magenta: #ff007c;
+  
+  /* Monokai Dimmed Light Theme */
+  --color-light-background-primary: #fdf6e3;
+  --color-light-background-secondary: #eee8d5;
+  --color-light-background-tertiary: #dfd9c6;
+  --color-light-text-normal: #545454;
+  --color-light-text-muted: #797878;
+  --color-light-positive: #2aa198;
+  --color-light-warning: #cb4b16;
+  --color-light-danger: #dc322f;
+  --color-light-activity-badge: #304db9;
+  --color-light-tab-active: #2aa19840;
+  --color-light-tab-hover: #6c71c460;
+  --color-light-selection: #6c71c4;
+  
+  /* Dark Theme (Tokyo Night Moon) - UNCHANGED */
+  --color-dark-background: #222436;
+  --color-dark-surface: #1e2030;
+  --color-dark-text: #c8d3f5;
+  --color-dark-text-muted: #828bb8;
+  --color-dark-error: #ff757f;
+  --color-dark-warning: #ffc777;
+  --color-dark-success: #c3e88d;
+}
+
+@layer utilities {
+  /* Monokai Dimmed Light Theme Variables */
+  :root, .light {
+    /* Backgrounds */
+    --color-background-primary: var(--color-light-background-primary);
+    --color-background-secondary: var(--color-light-background-secondary);
+    --color-background-tertiary: var(--color-light-background-tertiary);
+    --color-activity-bar: var(--color-light-background-secondary);
+    --color-sidebar: var(--color-light-background-tertiary);
+    --color-title-bar: #c9c4b2;
+    --color-status-bar: #e4dec3;
+    
+    /* Text */
+    --color-text-normal: var(--color-light-text-normal);
+    --color-text-muted: var(--color-light-text-muted);
+    --color-header-primary: var(--color-light-text-normal);
+    --color-header-secondary: var(--color-light-text-muted);
+    
+    /* Status Colors */
+    --color-positive: var(--color-light-positive);
+    --color-warning: var(--color-light-warning);
+    --color-danger: var(--color-light-danger);
+    --color-debugging: #d26600;
+    
+    /* Interactive Elements */
+    --color-activity-badge: var(--color-light-activity-badge);
+    --color-tab-active: var(--color-light-tab-active);
+    --color-tab-hover: var(--color-light-tab-hover);
+    --color-selection: var(--color-light-selection);
+    --color-menu-selection: #cb4b1677;
+    --color-menu-border: #dc322f;
+    
+    /* UI Components */
+    --color-scrollbar-thumb: #93a1a1;
+    --color-input-background: var(--color-light-background-secondary);
+    --color-widget-background: var(--color-light-background-secondary);
+    
+    /* Special Cases */
+    --color-no-folder: #1acf9f9d;
+  }
+
+  /* Dark Theme Variables - UNCHANGED */
+  .dark {
+    --color-background-primary: var(--color-dark-background);
+    --color-background-secondary: var(--color-dark-surface);
+    --color-text-normal: var(--color-dark-text);
+    --color-text-muted: var(--color-dark-text-muted);
+    --color-positive: var(--color-dark-success);
+    --color-warning: var(--color-dark-warning);
+    --color-danger: var(--color-dark-error);
+    --color-info-positive-background: hsla(89, 32%, 28%, 0.8);
+    --color-info-warning-background: hsla(36, 74%, 32%, 0.8);
+    --color-info-danger-background: hsla(348, 35%, 31%, 0.8);
+  }
+
+  /* Shared Components */
+  :root {
+    --color-accent-blue: #82aaff;
+    --color-accent-blue-dark: #3e68d7;
+    --color-accent-cyan: #86e1fc;
+    --color-accent-teal: #4fd6be;
+    --color-accent-green: #c3e88d;
+    --color-accent-red: #ff757f;
+    --color-accent-orange: #ff966c;
+    --color-accent-yellow: #ffc777;
+    
+    /* Git Colors */
+    --color-git-added: #b8db87;
+    --color-git-modified: #7ca1f2;
+    --color-git-removed: #e26a75;
+  }
+}

@@ -1,0 +1,9 @@
+pyvenv.cfg
+.lock
+*.lock
+CACHEDIR.TAG
+venv/*
+*/__pycache__/*
+*.env
+/*.env.*
+/*.env
