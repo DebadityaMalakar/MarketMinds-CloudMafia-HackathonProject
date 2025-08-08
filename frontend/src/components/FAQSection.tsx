@@ -20,96 +20,62 @@ const faqs = [
 ];
 
 const FAQSection = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState(null);
 
-  const toggleFAQ = (index: number) => {
+  const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section
-      id="faq"
-      style={{
-        backgroundColor: "var(--color-background-primary)",
-        color: "var(--color-text-normal)",
-        padding: "4rem 1rem",
-      }}
-    >
-      <h2
-        style={{
-          fontSize: "2rem",
-          fontWeight: "bold",
-          textAlign: "center",
-          marginBottom: "3rem",
-          textTransform: "uppercase",
-          letterSpacing: "2px",
-          color: "var(--color-accent-blue)",
-        }}
-      >
-        Frequently Asked Questions
-      </h2>
+    <section id="faq" className="py-20 bg-[#F8F4EF]">
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-14 uppercase tracking-wide bg-gradient-to-r from-[#FFB300] to-[#2B7A78] bg-clip-text text-transparent">
+          Frequently Asked Questions
+        </h2>
 
-      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "0 1rem" }}>
-        {faqs.map((faq, idx) => (
-          <div
-            key={idx}
-            style={{
-              backgroundColor: "var(--color-background-secondary)",
-              border: `1px solid var(--color-accent-blue)`,
-              borderRadius: "8px",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
-              marginBottom: "1rem",
-              transition: "box-shadow 0.3s ease",
-            }}
-          >
-            <button
-              onClick={() => toggleFAQ(idx)}
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "1rem 1.5rem",
-                background: "transparent",
-                border: "none",
-                textAlign: "left",
-                cursor: "pointer",
-                color: "var(--color-accent-blue)",
-                fontWeight: "bold",
-                fontSize: "1.1rem",
-              }}
-            >
-              <span>{faq.q}</span>
-              <span
-                style={{
-                  transform: openIndex === idx ? "rotate(45deg)" : "rotate(0deg)",
-                  transition: "transform 0.3s ease, color 0.3s ease",
-                  fontSize: "1.5rem",
-                  color:
-                    openIndex === idx
-                      ? "var(--color-accent-yellow)"
-                      : "var(--color-text-normal)",
-                }}
-              >
-                +
-              </span>
-            </button>
-
+        <div className="max-w-4xl mx-auto space-y-6">
+          {faqs.map((faq, idx) => (
             <div
-              style={{
-                maxHeight: openIndex === idx ? "200px" : "0",
-                overflow: "hidden",
-                padding: openIndex === idx ? "0 1.5rem 1rem" : "0 1.5rem",
-                color: "var(--color-text-muted)",
-                fontSize: "1rem",
-                lineHeight: "1.5",
-                transition: "max-height 0.3s ease, padding 0.3s ease",
-              }}
+              key={idx}
+              className="bg-white rounded-xl shadow-sm border border-gray-200 hover:border-[#FFB300] transition-all duration-300"
             >
-              <p>{faq.a}</p>
+              <button
+                onClick={() => toggleFAQ(idx)}
+                className="w-full flex justify-between items-center px-8 py-6 text-left focus:outline-none"
+                aria-expanded={openIndex === idx}
+                aria-controls={`faq-${idx}`}
+              >
+                <span className="font-bold text-xl text-[#4A3F35]">
+                  {faq.q}
+                </span>
+                <span
+                  className={`ml-4 text-2xl font-bold transition-transform duration-300 ${
+                    openIndex === idx 
+                      ? "rotate-45 text-[#FFB300]"
+                      : "rotate-0 text-[#4A3F35]"
+                  }`}
+                >
+                  +
+                </span>
+              </button>
+
+              <div
+                id={`faq-${idx}`}
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  openIndex === idx 
+                    ? "max-h-40 opacity-100 pb-6"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
+                <div className="px-8 pb-2">
+                  <p className="text-lg text-[#6B6259] leading-relaxed">
+                    {faq.a}
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

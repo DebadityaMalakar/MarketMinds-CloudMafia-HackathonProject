@@ -7,6 +7,9 @@ from routes.signup import signup_bp
 from routes.constant_verify import TokenVerifyNamespace
 from datetime import datetime
 import os
+from routes.dashboard_data import dashboard_bp
+
+
 
 def create_app():
     app = Flask(__name__, static_folder=None)
@@ -33,7 +36,8 @@ def create_app():
     # Register blueprints
     app.register_blueprint(login_bp)
     app.register_blueprint(signup_bp)
-
+    # ...
+    app.register_blueprint(dashboard_bp)
     # Create socketio instance attached to app
     socketio = SocketIO(app, cors_allowed_origins="*")
 

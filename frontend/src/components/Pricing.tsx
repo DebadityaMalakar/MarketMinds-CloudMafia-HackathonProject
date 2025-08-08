@@ -45,68 +45,35 @@ const plans = [
   },
 ];
 
-export default function Pricing() {
+const SubscriptionPricingPage = () => {
   const [billingCycle, setBillingCycle] = useState("Monthly");
   const isMonthly = billingCycle === "Monthly";
 
   return (
-    <section
-      style={{
-        backgroundColor: "var(--color-background-primary)",
-        color: "var(--color-text-normal)",
-        padding: "6rem 1rem",
-        fontFamily: "var(--font-family, sans-serif)",
-      }}
-    >
-      <div style={{ maxWidth: "80rem", margin: "0 auto" }}>
+    <section className="py-24 bg-[#F8F4EF] text-[#4A3F35] font-manrope">
+      <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "2.5rem", fontWeight: "800", textTransform: "uppercase" }}>
-            Transparent Pricing
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-extrabold uppercase text-[#4A3F35]">
+            Transparent Pricing for Vyapari+
           </h2>
-          <p
-            style={{
-              color: "var(--color-text-muted)",
-              marginTop: "1rem",
-              maxWidth: "40rem",
-              marginLeft: "auto",
-              marginRight: "auto",
-              fontSize: "1.125rem",
-            }}
-          >
-            Choose a plan that fits your business scale. No hidden charges — built for flexibility.
+          <p className="text-[#6B6259] mt-4 max-w-2xl mx-auto text-lg">
+            Choose a plan that fits your shop's scale and ambition. Built for Indian businesses, with no hidden charges.
           </p>
         </div>
 
         {/* Toggle */}
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "3.5rem" }}>
-          <div
-            style={{
-              display: "inline-flex",
-              backgroundColor: "var(--color-background-secondary)",
-              padding: "0.25rem",
-              borderRadius: "9999px",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-            }}
-          >
+        <div className="flex justify-center mb-14">
+          <div className="relative inline-flex rounded-full bg-[#EFE8DD] p-1 shadow-md">
             {["Monthly", "Annual"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setBillingCycle(tab)}
-                style={{
-                  padding: "0.5rem 1.5rem",
-                  borderRadius: "9999px",
-                  fontWeight: "600",
-                  transition: "all 0.3s ease",
-                  backgroundColor:
-                    billingCycle === tab ? "var(--color-accent-yellow)" : "transparent",
-                  color:
-                    billingCycle === tab
-                      ? "#fff"
-                      : "var(--color-text-normal)",
-                  boxShadow:
-                    billingCycle === tab ? "0 2px 6px rgba(0,0,0,0.2)" : "none",
-                }}
+                className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+                  billingCycle === tab
+                    ? "bg-[#FFB300] text-white shadow"
+                    : "text-[#4A3F35] hover:text-[#FFB300]"
+                }`}
               >
                 {tab}
               </button>
@@ -115,13 +82,7 @@ export default function Pricing() {
         </div>
 
         {/* Plans */}
-        <div
-          style={{
-            display: "grid",
-            gap: "2.5rem",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          }}
-        >
+        <div className="grid gap-10 sm:grid-cols-1 lg:grid-cols-3">
           {plans.map((plan) => {
             const price = isMonthly ? plan.monthly : plan.annual;
             const displayCycle = isMonthly ? "/month" : "/year";
@@ -130,108 +91,64 @@ export default function Pricing() {
             return (
               <div
                 key={plan.key}
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "2rem",
-                  borderRadius: "12px",
-                  backgroundColor: "var(--color-background-secondary)",
-                  border: isPopular
-                    ? `2px solid var(--color-accent-yellow)`
-                    : `1px solid var(--color-text-muted)`,
-                  boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
-                  transition: "all 0.3s ease",
-                }}
-                className="hover:shadow-lg"
+                className={`relative flex flex-col p-8 rounded-xl bg-white shadow-sm border ${
+                  isPopular
+                    ? "border-[#FFB300] ring-2 ring-[#FFB300]"
+                    : "border-gray-200"
+                } transition hover:shadow-lg`}
               >
                 {isPopular && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "1rem",
-                      right: "1rem",
-                      backgroundColor: "var(--color-accent-yellow)",
-                      color: "#fff",
-                      padding: "0.25rem 0.75rem",
-                      fontSize: "0.75rem",
-                      fontWeight: "700",
-                      borderRadius: "9999px",
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-                    }}
-                  >
+                  <div className="absolute top-4 right-4 bg-[#FFB300] text-white px-3 py-1 text-xs font-bold rounded-full shadow-sm">
                     Most Popular
                   </div>
                 )}
 
-                <div style={{ flex: 1 }}>
-                  <h3 style={{ fontSize: "1.75rem", fontWeight: "700" }}>{plan.name}</h3>
-                  <p style={{ marginTop: "0.25rem", fontSize: "0.9rem", color: "var(--color-text-muted)" }}>
-                    {plan.tagline}
-                  </p>
+                <div className="flex-1">
+                  <h3 className="text-3xl font-bold">{plan.name}</h3>
+                  <p className="mt-1 text-sm text-[#6B6259]">{plan.tagline}</p>
 
-                  <div style={{ marginTop: "1.5rem", display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
-                    <div style={{ fontSize: "2rem", fontWeight: "800", color: "var(--color-accent-blue)" }}>
-                      <CountUp start={0} end={price} duration={1} prefix="₹" separator="," />
+                  <div className="mt-6 flex items-baseline gap-2">
+                    <div className="text-4xl font-extrabold text-[#2B7A78]">
+                      <CountUp 
+                        start={0} 
+                        end={price} 
+                        duration={1} 
+                        prefix="₹" 
+                        separator="," 
+                        decimals={0}
+                      />
                     </div>
-                    <div style={{ color: "var(--color-text-normal)", fontSize: "1rem" }}>
-                      {displayCycle}
-                    </div>
+                    <div className="text-[#4A3F35] text-lg">{displayCycle}</div>
                   </div>
 
                   {!isMonthly && plan.monthly > 0 && (
-                    <div style={{ marginTop: "0.25rem", fontSize: "0.85rem", color: "var(--color-accent-yellow)" }}>
+                    <div className="mt-1 text-sm text-[#FFB300]">
                       ₹{Math.round((plan.annual / 12) * 100) / 100}/month equivalent
                     </div>
                   )}
 
-                  <ul style={{ marginTop: "1.5rem", listStyle: "none", paddingLeft: 0 }}>
-                    {plan.features.map((f, i) => (
-                      <li
-                        key={i}
-                        style={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          gap: "0.5rem",
-                          fontSize: "0.95rem",
-                          color: "var(--color-text-normal)",
-                        }}
-                      >
-                        <span style={{ color: "var(--color-accent-yellow)", marginTop: "0.2rem" }}>✔</span>
-                        <span>{f}</span>
+                  <ul className="mt-6 space-y-3 text-[#4A3F35]">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="text-[#FFB300] mt-1">✔</span>
+                        <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div style={{ marginTop: "2rem" }}>
+                <div className="mt-8">
                   <button
-                    style={{
-                      width: "100%",
-                      padding: "0.75rem",
-                      borderRadius: "8px",
-                      fontWeight: "600",
-                      transition: "all 0.3s ease",
-                      backgroundColor: isPopular
-                        ? "var(--color-accent-yellow)"
-                        : "var(--color-accent-blue)",
-                      color: "#fff",
-                      cursor: "pointer",
-                    }}
+                    className={`w-full py-3 rounded-md font-semibold transition-all ${
+                      isPopular
+                        ? "bg-[#FFB300] text-white hover:brightness-105"
+                        : "bg-[#2B7A78] text-white hover:bg-[#256c69]"
+                    }`}
                   >
                     {price === 0 ? "Get Started" : `Subscribe ₹${price}`}
                   </button>
-                  <div
-                    style={{
-                      marginTop: "0.5rem",
-                      textAlign: "center",
-                      fontSize: "0.75rem",
-                      color: "var(--color-text-muted)",
-                    }}
-                  >
-                    {isMonthly
-                      ? "Billed monthly. Cancel anytime."
-                      : "Billed annually. Save more."}
+                  <div className="mt-2 text-center text-xs text-[#6B6259]">
+                    {isMonthly ? "Billed monthly. Cancel anytime." : "Billed annually. Save more."}
                   </div>
                 </div>
               </div>
@@ -240,17 +157,7 @@ export default function Pricing() {
         </div>
 
         {/* Footnote */}
-        <div
-          style={{
-            marginTop: "3.5rem",
-            textAlign: "center",
-            fontSize: "0.85rem",
-            color: "var(--color-text-muted)",
-            maxWidth: "40rem",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
+        <div className="mt-14 text-center text-sm text-[#6B6259] max-w-2xl mx-auto">
           <p>
             All prices in INR (₹). GST may apply. Contact us for custom pricing, integrations, and multi-branch support.
           </p>
@@ -258,4 +165,6 @@ export default function Pricing() {
       </div>
     </section>
   );
-}
+};
+
+export default SubscriptionPricingPage;

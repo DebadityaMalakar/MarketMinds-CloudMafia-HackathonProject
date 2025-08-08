@@ -1,130 +1,219 @@
-import { hover } from "framer-motion";
-import ThemeSwitchIcon from "./ThemeSwitchIcon"
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useRouter } from "@tanstack/react-router";
+import { ChevronDown, Menu, X } from "react-feather";
+import ThemeSwitchIcon from "./ThemeSwitchIcon";
 
-function Navbar() {
+const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const router = useRouter();
+  const [activePath, setActivePath] = useState("");
 
-  // Check for dark mode preference on component mount
+  // Navigation items
+  const navItems = [
+    { id: "solutions", label: "Solutions", href: "/solutions" },
+    { id: "features", label: "Features", href: "/features" },
+    { id: "partners", label: "Partners", href: "/partners" },
+    { id: "resources", label: "Resources", href: "/resources" },
+    { id: "pricing", label: "Pricing", href: "/pricing" },
+  ];
+
+  // Check for dark mode preference
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const htmlElement = document.documentElement;
     
-    // Set initial state
-    setIsDarkMode(htmlElement.classList.contains('dark'));
-    
-    // Listen for changes
-    const handleChange = () => {
-      setIsDarkMode(htmlElement.classList.contains('dark'));
+    const updateDarkMode = () => {
+      const darkMode = htmlElement.classList.contains('dark');
+      setIsDarkMode(darkMode);
     };
-    
-    // Modern way to observe class changes
+
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'class') {
-          handleChange();
+          updateDarkMode();
         }
       });
     });
-    
+
+    updateDarkMode();
     observer.observe(htmlElement, { attributes: true });
     
     return () => observer.disconnect();
   }, []);
 
+  // Track active route
+  useEffect(() => {
+    const unsubscribe = router.subscribe(() => {
+      setActivePath(router.state.location.pathname);
+    });
+    return unsubscribe;
+  }, [router]);
+
   return (
-    <Fragment>
-      {/* Top Nav */}
-      <header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem 2rem",
-          backgroundColor: "var(--color-background-secondary)",
-          borderBottom: "1px solid var(--color-text-muted)",
-        }}
-      >
-        <div style={{ 
-          color: isDarkMode ? "white" : "black", 
-          fontSize: "1.5rem", 
-          fontWeight: "bold" 
-        }}>
-          MarketMinds
-        </div>
-
-        <nav style={{ display: "flex", gap: "1.5rem" }}>
-          {["Solutions", "Features", "Partners", "Resources", "Pricing"].map(
-            (item) => (
-              <a
-                key={item}
-                href="#"
-                style={{
-                  color: "var(--color-text-muted)",
-                  textDecoration: "none",
-                }}
-              >
-                {item}
-              </a>
-            )
-          )}
-        </nav>
-
-        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          <button
-            style={{
-              backgroundColor: "transparent",
-              border: `1px solid var(--color-accent-blue)`,
-              color: isDarkMode ? "white" : "black",
-              padding: "0.5rem 1rem",
-              borderRadius: "6px",
-              transition: "all 0.2s ease",
-            }}
-            onClick={() => { window.location.href = "/auth" }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "var(--color-accent-blue)";
-              e.currentTarget.style.color = "black";
-              e.currentTarget.style.cursor = "pointer";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.color = isDarkMode ? "white" : "black";
-              e.currentTarget.style.cursor = "default";
-            }}
-          >
-            Login
-          </button>
-          <button
-            style={{
-              backgroundColor: "var(--color-accent-blue)",
-              border: "none",
-              color: isDarkMode ? "white" : "black",
-              padding: "0.5rem 1rem",
-              borderRadius: "6px",
-              transition: "all 0.2s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "var(--color-accent-blue)";
-              e.currentTarget.style.color = "black";
-              e.currentTarget.style.cursor = "pointer";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = isDarkMode ? "white" : "black";
-              e.currentTarget.style.cursor = "default";
-            }}
-          >
-            Start Free Trial
-          </button>
-          <ThemeSwitchIcon 
+    <header 
+      className="sticky top-0 z-50 border-b"
+      style={{
+        backgroundColor: isDarkMode ? '#1e2030' : '#4A3F35',
+        borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link
+            to="/"
+            className="flex-shrink-0 text-2xl font-extrabold"
             style={{ 
-              color: isDarkMode ? "white" : "black",
-              transition: "color 0.2s ease"
-            }} 
-          />
+              color: isDarkMode ? '#FFB300' : '#FFB300',
+              textShadow: isDarkMode ? '0 0 8px rgba(255,179,0,0.3)' : 'none'
+            }}
+          >
+            MarketMinds
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.id}
+                to={item.href}
+                className={`text-sm font-medium transition-colors ${
+                  activePath.startsWith(item.href)
+                    ? "text-[#FFB300]"
+                    : "text-white hover:text-[#FFB300]"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Auth Buttons */}
+          <div className="hidden md:flex items-center space-x-4">
+            <Link
+              to="/auth"
+              className="px-4 py-2 rounded-md border text-sm font-medium transition-colors"
+              style={{
+                backgroundColor: 'transparent',
+                borderColor: isDarkMode ? '#82aaff' : '#FFB300',
+                color: isDarkMode ? '#82aaff' : '#FFB300',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = isDarkMode ? '#82aaff20' : '#FFB30020';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+            >
+              Login
+            </Link>
+            <Link
+              to="/auth?action=signup"
+              className="px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              style={{
+                backgroundColor: isDarkMode ? '#82aaff' : '#FFB300',
+                color: isDarkMode ? '#1e2030' : '#4A3F35',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.9';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1';
+              }}
+            >
+              Start Free Trial
+            </Link>
+            <ThemeSwitchIcon 
+              style={{ 
+                color: isDarkMode ? '#82aaff' : '#FFB300',
+                transition: "color 0.2s ease"
+              }} 
+            />
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
+            <ThemeSwitchIcon 
+              className="mr-4"
+              style={{ 
+                color: isDarkMode ? '#82aaff' : '#FFB300',
+                transition: "color 0.2s ease"
+              }} 
+            />
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md focus:outline-none"
+              style={{ color: isDarkMode ? '#82aaff' : '#FFB300' }}
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
-      </header>
-    </Fragment>
+      </div>
+
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <div 
+          className="md:hidden border-t"
+          style={{
+            backgroundColor: isDarkMode ? '#1e2030' : '#4A3F35',
+            borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+          }}
+        >
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            {navItems.map((item) => (
+              <Link
+                key={item.id}
+                to={item.href}
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  activePath.startsWith(item.href)
+                    ? "text-[#FFB300] bg-white/10"
+                    : "text-white hover:text-[#FFB300] hover:bg-white/10"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <div 
+              className="pt-4 pb-2 border-t"
+              style={{
+                borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+              }}
+            >
+              <Link
+                to="/auth"
+                className="block w-full px-4 py-2 mb-2 rounded-md text-center text-sm font-medium border"
+                style={{
+                  borderColor: isDarkMode ? '#82aaff' : '#FFB300',
+                  color: isDarkMode ? '#82aaff' : '#FFB300',
+                }}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Login
+              </Link>
+              <Link
+                to="/auth?action=signup"
+                className="block w-full px-4 py-2 rounded-md text-center text-sm font-medium"
+                style={{
+                  backgroundColor: isDarkMode ? '#82aaff' : '#FFB300',
+                  color: isDarkMode ? '#1e2030' : '#4A3F35',
+                }}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Start Free Trial
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+    </header>
   );
-}
+};
 
 export default Navbar;

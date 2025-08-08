@@ -33,10 +33,10 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="bg-[var(--color-surface)] border-r border-[var(--color-border-muted)] w-64 flex flex-col justify-between">
+    <aside className="bg-surface border-r border-border-muted w-64 flex flex-col justify-between h-screen">
       <div>
         {/* Logo */}
-        <div className="p-6 text-center font-bold text-xl text-[var(--color-accent-yellow)]">
+        <div className="p-6 text-center font-bold text-xl text-accent-yellow">
           MarketMinds
         </div>
 
@@ -55,7 +55,7 @@ const Sidebar = () => {
         </nav>
 
         {/* Trial Warning */}
-        <div className="bg-[var(--color-accent-yellow)]/10 border border-[var(--color-accent-yellow)] rounded-lg p-3 mt-6 mx-4 text-sm text-[var(--color-accent-yellow)]">
+        <div className="bg-accent-yellow/10 border border-accent-yellow rounded-lg p-3 mt-6 mx-4 text-sm text-accent-yellow">
           <strong>Trial Ending</strong>
           <p>Your free trial ends in 14 days.</p>
           <a href="#" className="underline">
@@ -80,14 +80,14 @@ const Sidebar = () => {
     </aside>
   );
 };
-{/*@ts-ignore */}
+
 const NavItem = ({ icon, label, active, badge, onClick }) => (
   <div
     onClick={onClick}
     className={`flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition ${
       active
-        ? "bg-[var(--color-accent-blue)] text-white"
-        : "hover:bg-[var(--color-surface-highlight)]"
+        ? "bg-accent-blue text-primary font-bold"
+        : "hover:bg-surface-highlight text-text-primary"
     }`}
   >
     <div className="flex items-center gap-3">
@@ -95,7 +95,7 @@ const NavItem = ({ icon, label, active, badge, onClick }) => (
       <span>{label}</span>
     </div>
     {badge && (
-      <span className="bg-[var(--color-surface-highlight)] text-xs px-2 py-0.5 rounded-full">
+      <span className="bg-surface-highlight text-xs px-2 py-0.5 rounded-full">
         {badge}
       </span>
     )}
